@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpbDataSourceConfig">
+    <data-sources>
+      <data-source id="b1523ab7-7c1f-4b97-baf7-cfed705a9792" name="Artifacts" url="jdbc:postgresql://localhost/artifact" driverClass="org.postgresql.Driver" />
+    </data-sources>
+  </component>
+</project>
