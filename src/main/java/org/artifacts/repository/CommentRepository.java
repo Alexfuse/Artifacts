@@ -8,5 +8,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CommentRepository extends JpaRepository<Comment, UUID> {
-    Optional<Comment> findByIdArtifact(UUID idArtifact);
+
 }

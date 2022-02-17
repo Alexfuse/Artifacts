@@ -12,10 +12,15 @@ import java.util.UUID;
 
 @Service
 public class ArtifactService {
-    @Autowired
-    private ArtifactRepository artifactRepository;
 
-    /*public ArtifactService(ArtifactRepository artifactRepository) {
+    private ArtifactRepository artifactRepository;
+    @Autowired
+    public void setArtifactRepository(ArtifactRepository artifactRepository)
+    {
+        this.artifactRepository = artifactRepository;
+    }
+    /*@Autowired
+    public ArtifactService(ArtifactRepository artifactRepository) {
         this.artifactRepository = artifactRepository;
     }*/
     @Transactional

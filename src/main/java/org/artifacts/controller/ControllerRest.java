@@ -15,9 +15,9 @@ public class ControllerRest {
     /*@Autowired
     private ArtifactRepository artifactRepository;*/
 
-    @Autowired
-    private ArtifactService artifactService;
 
+    private ArtifactService artifactService;
+    @Autowired
     public void setArtifactService(ArtifactService artifactService){
         this.artifactService=artifactService;
     }
