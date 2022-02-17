@@ -4,13 +4,12 @@ import org.artifacts.entity.Artifact;
 import org.artifacts.services.ArtifactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController
-public class ControllerRest {
+@org.springframework.web.bind.annotation.RestController
+public class RestController {
 
     /*@Autowired
     private ArtifactRepository artifactRepository;*/
@@ -22,12 +21,19 @@ public class ControllerRest {
         this.artifactService=artifactService;
     }
 
+    @RequestMapping(path = "/test")
+    public String test()
+    {
+        return "0";
+    }
+
     @RequestMapping(path = "/artifact/{UUID}",
             method = RequestMethod.GET,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
-    public Object getArtifact(@PathVariable("UUID")UUID id)
+    public Object getArtifact(@PathVariable("UUID") String uuid)
     {
+        UUID id = UUID.fromString(uuid);
         return artifactService.findById(id);
     }
 
@@ -53,8 +59,9 @@ public class ControllerRest {
             method = RequestMethod.DELETE,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
-    public void deleteArtifact(@PathVariable("UUID")UUID id)
+    public void deleteArtifact(@PathVariable("UUID") String uuid)
     {
+        UUID id = UUID.fromString(uuid);
         artifactService.deleteById(id);
     }
 
