@@ -12,7 +12,7 @@ public class Artifact {
     @Id
     @Column(name = "id")
     @GeneratedValue
-    @Type(type="org.hibernate.type.PostgresUUIDType")
+    //@Type(type="org.hibernate.type.PostgresUUIDType")
     private UUID id;
 
     @Column(name = "created")

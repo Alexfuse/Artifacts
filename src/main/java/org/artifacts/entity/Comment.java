@@ -14,11 +14,11 @@ public class Comment {
     @Id
     @Column(name = "id")
     @GeneratedValue
-    @Type(type="org.hibernate.type.PostgresUUIDType")
+    //@Type(type="org.hibernate.type.PostgresUUIDType")
     private UUID id;
 
     @Column(name = "artefactID")
-    @Type(type="org.hibernate.type.PostgresUUIDType")
+    //@Type(type="org.hibernate.type.PostgresUUIDType")
     @JoinColumn(name = "artifact.id")
     private UUID artefactId;
 
