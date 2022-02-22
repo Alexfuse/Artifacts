@@ -1,5 +1,6 @@
 package org.artifacts.entity;
 
+import org.artifacts.converter.UuidConverter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.Type;
@@ -14,11 +15,13 @@ public class Comment {
     @Id
     @Column(name = "id")
     @GeneratedValue
+    @Convert(converter = UuidConverter.class)
     //@Type(type="org.hibernate.type.PostgresUUIDType")
     private UUID id;
 
     @Column(name = "artefactID")
     //@Type(type="org.hibernate.type.PostgresUUIDType")
+    @Convert(converter = UuidConverter.class)
     @JoinColumn(name = "artifact.id")
     private UUID artefactId;
 

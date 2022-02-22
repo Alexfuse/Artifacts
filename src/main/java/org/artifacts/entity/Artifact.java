@@ -1,23 +1,28 @@
 package org.artifacts.entity;
 
+import org.artifacts.converter.UuidConverter;
 import org.hibernate.annotations.Type;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
 @Table(name = "artifact")
-public class Artifact {
+public class Artifact implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue
+    @Convert(converter = UuidConverter.class)
     //@Type(type="org.hibernate.type.PostgresUUIDType")
     private UUID id;
 
     @Column(name = "created")
-    @GeneratedValue
-    private Date created;
+    //@GeneratedValue
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date created;
 
     @Column(name = "userID")
     private String userID;
@@ -28,18 +33,35 @@ public class Artifact {
     @Column(name = "description")
     private String description;
 
+    //@Autowired
     public Artifact()
     {
 
     }
 
-    public Artifact(String userID, String category, String description){
+    public Artifact(UUID id,String userID, String category, String description){
+        this.id = id;
         this.userID = userID;
         this.category = category;
         this.description = description;
     }
 
-    public Date getCreated() {
+    public Artifact(String id,String userID, String category, String description){
+        this.id = UUID.fromString(id);
+        this.userID = userID;
+        this.category = category;
+        this.description = description;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public java.util.Date getCreated() {
         return created;
     }
 
@@ -67,4 +89,8 @@ public class Artifact {
         this.userID = userID;
     }
 
+    public void setCreated(Date created)
+    {
+        this.created = created;
+    }
 }

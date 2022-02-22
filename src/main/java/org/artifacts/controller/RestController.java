@@ -1,18 +1,19 @@
 package org.artifacts.controller;
 
 import org.artifacts.entity.Artifact;
+import org.artifacts.entity.ArtifactDTO;
 import org.artifacts.services.ArtifactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
-
-    /*@Autowired
-    private ArtifactRepository artifactRepository;*/
 
 
     private ArtifactService artifactService;
@@ -41,17 +42,19 @@ public class RestController {
             method = RequestMethod.POST,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
-    public Artifact addArtifact(@RequestBody Artifact artifact)
+    public ArtifactDTO addArtifact(@RequestBody Artifact artifact)
     {
+        artifact.setCreated(new Date());
         return artifactService.save(artifact);
     }
     @RequestMapping(path = "/artifact",
             method = RequestMethod.PUT,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
-    public Artifact updateArtifact(@RequestBody Artifact artifact)
+    public ArtifactDTO updateArtifact(@RequestBody Artifact artifact)
     {
-
+        if(artifact.getCreated() == null)
+            artifact.setCreated(new Date());
         return artifactService.save(artifact);
     }
 
@@ -65,4 +68,18 @@ public class RestController {
         artifactService.deleteById(id);
     }
 
+    @RequestMapping(path = "/artifact/search",
+            method = RequestMethod.POST,
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @ResponseBody
+    public List<Artifact> searchArtifact(@RequestBody Map<String,String> searchObject)
+    {
+        if(searchObject.containsKey("Category"))
+           return artifactService.findByCategory(searchObject.get("Category"));
+        if(searchObject.containsKey("UserID"))
+           return artifactService.findByUserId(searchObject.get("UserID"));
+        if(searchObject.containsKey("Description"))
+           return artifactService.findByDescription( searchObject.get("Description"));
+        return null;
+    }
 }
