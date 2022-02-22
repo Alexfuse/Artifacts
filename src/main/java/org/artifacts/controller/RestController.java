@@ -2,7 +2,9 @@ package org.artifacts.controller;
 
 import org.artifacts.entity.Artifact;
 import org.artifacts.entity.ArtifactDTO;
+import org.artifacts.entity.Comment;
 import org.artifacts.services.ArtifactService;
+import org.artifacts.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +19,14 @@ public class RestController {
 
 
     private ArtifactService artifactService;
+    private CommentService commentService;
     @Autowired
     public void setArtifactService(ArtifactService artifactService){
         this.artifactService=artifactService;
     }
+
+    @Autowired
+    public void setCommentService(CommentService commentService){this.commentService = commentService;}
 
     @RequestMapping(path = "/test")
     public String test()
@@ -80,6 +86,17 @@ public class RestController {
            return artifactService.findByUserId(searchObject.get("UserID"));
         if(searchObject.containsKey("Description"))
            return artifactService.findByDescription( searchObject.get("Description"));
+        if(searchObject.containsKey("Comment"))
+           return artifactService.findByComment( searchObject.get("Comment"));
         return null;
+    }
+
+    @RequestMapping(path = "/comments",
+            method = RequestMethod.POST,
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+    @ResponseBody
+    public Comment addComment(@RequestBody Comment comment)
+    {
+        return commentService.save(comment);
     }
 }

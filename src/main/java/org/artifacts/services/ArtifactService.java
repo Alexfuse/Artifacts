@@ -63,4 +63,10 @@ public class ArtifactService {
         return artifactRepository.findByDescription(description);
     }
 
+    @Transactional
+    public List<Artifact> findByComment(String comment)
+    {
+        return artifactRepository.findByComment(comment);
+    }
+
 }
