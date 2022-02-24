@@ -80,6 +80,7 @@ public class RestController {
     @ResponseBody
     public List<Artifact> searchArtifact(@RequestBody Map<String,String> searchObject)
     {
+        System.out.print(searchObject);
         if(searchObject.containsKey("Category"))
            return artifactService.findByCategory(searchObject.get("Category"));
         if(searchObject.containsKey("UserID"))

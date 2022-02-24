@@ -18,9 +18,9 @@ public class Comment {
     @Convert(converter = UuidConverter.class)
     private UUID id;
 
-    @Column(name = "artefactID", columnDefinition = "uuid")
-    //@Convert(converter = UuidConverter.class)
-    @JoinColumn(name = "artifact.id")
+    @Column(name = "artefactID")//, columnDefinition = "uuid"
+    @Convert(converter = UuidConverter.class)
+    @JoinColumn(name = "artifact_id", nullable=true)
     private UUID artefactId;
 
     @Column(name = "userID")
