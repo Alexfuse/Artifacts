@@ -1,6 +1,7 @@
 package org.artifacts.entity;
 
 import org.artifacts.converter.UuidConverter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -15,8 +16,9 @@ public class Comment {
     @Convert(converter = UuidConverter.class)
     private UUID id;
 
-    @Column(name = "artefactID")//, columnDefinition = "uuid"
-    @Convert(converter = UuidConverter.class)
+    @Column(name = "artifactid",columnDefinition = "uuid")//, columnDefinition = "uuid"
+    //@Convert(converter = UuidConverter.class)
+    @Convert(disableConversion = true)
     @JoinColumn(name = "artifact_id", nullable=true)
     private UUID artifactId;
 
