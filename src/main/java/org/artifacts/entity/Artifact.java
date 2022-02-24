@@ -22,7 +22,7 @@ public class Artifact implements Serializable {
     @Column(name = "created")
     //@GeneratedValue
     @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date created;
+    private Date created;
 
     @Column(name = "userID")
     private String userID;

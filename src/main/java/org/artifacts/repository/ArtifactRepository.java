@@ -12,16 +12,16 @@ import java.util.UUID;
 public interface ArtifactRepository extends JpaRepository<Artifact, UUID> {
 
 
-    @Query("SELECT a FROM Artifact a WHERE a.category = ?1 ORDER BY a.created")
+    @Query("SELECT a FROM Artifact a WHERE a.category = ?1 ORDER BY a.created, a.userID")
     List<Artifact> findByCategory(String category);
 
-    @Query("SELECT a FROM Artifact a WHERE a.description = ?1 ORDER BY a.created, a.category")
+    @Query("SELECT a FROM Artifact a WHERE a.description = ?1 ORDER BY a.created, a.category, a.userID")
     List<Artifact> findByDescription(String description);
 
-    @Query(value = "SELECT * FROM artifact a WHERE a.userid = ?1 ORDER BY a.created, a.category",nativeQuery = true)
+    @Query(value = "SELECT * FROM artifact a WHERE a.userid = ?1 ORDER BY a.created, a.category, a.userID",nativeQuery = true)
     List<Artifact> findByUserId(String userId);
 
-    @Query(value = "SELECT a.* FROM artifact a JOIN comments c ON c.artifactid = a.id WHERE c.content LIKE %?1% ",nativeQuery = true)
+    @Query(value = "SELECT a.* FROM artifact a JOIN comments c ON c.artifactid = a.id WHERE c.content LIKE %?1% ORDER BY a.created, a.category, a.userID",nativeQuery = true)
     List<Artifact> findByComment( String comment);
 
     //List<Artifact> findByUserIdOrderByCreatedAscCategoryAsc(String userId);
