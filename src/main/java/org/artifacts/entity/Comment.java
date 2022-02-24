@@ -1,9 +1,6 @@
 package org.artifacts.entity;
 
 import org.artifacts.converter.UuidConverter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.ManyToAny;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -21,7 +18,7 @@ public class Comment {
     @Column(name = "artefactID")//, columnDefinition = "uuid"
     @Convert(converter = UuidConverter.class)
     @JoinColumn(name = "artifact_id", nullable=true)
-    private UUID artefactId;
+    private UUID artifactId;
 
     @Column(name = "userID")
     private String userID;
@@ -33,31 +30,31 @@ public class Comment {
 
     }
 
-    public Comment(UUID artefactId, String userID, String content)
+    public Comment(UUID artifactId, String userID, String content)
     {
-        this.artefactId = artefactId;
+        this.artifactId = artifactId;
         this.userID = userID;
         this.content = content;
     }
 
-    public Comment(UUID id,UUID artefactId, String userID, String content)
+    public Comment(UUID id, UUID artifactId, String userID, String content)
     {
         this.id = id;
-        this.artefactId = artefactId;
+        this.artifactId = artifactId;
         this.userID = userID;
         this.content = content;
     }
 
-    public Comment(String id,String artefactId, String userID, String content)
+    public Comment(String id, String artifactId, String userID, String content)
     {
         this.id = UUID.fromString(id);
-        this.artefactId = UUID.fromString(artefactId);
+        this.artifactId = UUID.fromString(artifactId);
         this.userID = userID;
         this.content = content;
     }
-    public Comment(String artefactId, String userID, String content)
+    public Comment(String artifactId, String userID, String content)
     {
-        this.artefactId = UUID.fromString(artefactId);
+        this.artifactId = UUID.fromString(artifactId);
         this.userID = userID;
         this.content = content;
     }
@@ -82,12 +79,12 @@ public class Comment {
         return content;
     }
 
-    public UUID getArtefactId() {
-        return artefactId;
+    public UUID getArtifactId() {
+        return artifactId;
     }
 
-    public void setArtefactId(UUID artefactId) {
-        this.artefactId = artefactId;
+    public void setArtifactId(UUID artifactId) {
+        this.artifactId = artifactId;
     }
 
     public void setContent(String content) {

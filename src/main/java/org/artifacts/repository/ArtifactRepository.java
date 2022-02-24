@@ -17,11 +17,13 @@ public interface ArtifactRepository extends JpaRepository<Artifact, UUID> {
 
     @Query("SELECT a FROM Artifact a WHERE a.description = ?1 ORDER BY a.created, a.category")
     List<Artifact> findByDescription(String description);
+
     @Query(value = "SELECT * FROM artifact a WHERE a.userid = ?1 ORDER BY a.created, a.category",nativeQuery = true)
     List<Artifact> findByUserId(String userId);
-    @Query(value = "SELECT a.* FROM artifact a JOIN comments c ON c.artefactid = a.id WHERE c.content LIKE '%?1%'",nativeQuery = true)
-    //@Query(value = "SELECT a FROM Artifact a JOIN Comment c ON c.artefactID = a.id WHERE c.content LIKE %:content%")
-    List<Artifact> findByComment(String comment);
+
+    @Query(value = "SELECT a.* FROM artifact a JOIN comments c ON c.artifactid = a.id WHERE c.content LIKE %?1% ",nativeQuery = true)
+    List<Artifact> findByComment( String comment);
+
     //List<Artifact> findByUserIdOrderByCreatedAscCategoryAsc(String userId);
     //List<Artifact> findByDescriptionOrderByCreatedAscCategoryAsc(String description);
     //List<Artifact> finByDescription(String description);
