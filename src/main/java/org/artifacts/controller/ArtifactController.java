@@ -3,6 +3,7 @@ package org.artifacts.controller;
 import org.artifacts.entity.Artifact;
 import org.artifacts.entity.ArtifactDTO;
 import org.artifacts.entity.Comment;
+import org.artifacts.entity.MissingParamError;
 import org.artifacts.services.ArtifactService;
 import org.artifacts.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +15,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@org.springframework.web.bind.annotation.RestController
-public class RestController {
+@RestController
+@RequestMapping("/artifact")
+public class ArtifactController {
 
 
     private ArtifactService artifactService;
-    private CommentService commentService;
+
     @Autowired
     public void setArtifactService(ArtifactService artifactService){
         this.artifactService=artifactService;
     }
 
-    @Autowired
-    public void setCommentService(CommentService commentService){this.commentService = commentService;}
+   
 
     @RequestMapping(path = "/test")
     public String test()
@@ -34,7 +35,7 @@ public class RestController {
         return "0";
     }
 
-    @RequestMapping(path = "/artifact/{UUID}",
+    @RequestMapping(path = "/{UUID}",
             method = RequestMethod.GET,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
@@ -44,27 +45,31 @@ public class RestController {
         return artifactService.findById(id);
     }
 
-    @RequestMapping(path = "/artifact",
+    @RequestMapping(
             method = RequestMethod.POST,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
-    public ArtifactDTO addArtifact(@RequestBody Artifact artifact)
+    public Object addArtifact(@RequestBody Artifact artifact)
     {
         artifact.setCreated(new Date());
         return artifactService.save(artifact);
     }
-    @RequestMapping(path = "/artifact",
+    @RequestMapping(
             method = RequestMethod.PUT,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
-    public ArtifactDTO updateArtifact(@RequestBody Artifact artifact)
+    public Object updateArtifact(@RequestBody ArtifactDTO artifact)
     {
-        if(artifact.getCreated() == null)
-            artifact.setCreated(new Date());
-        return artifactService.save(artifact);
+        if(artifact.getId() != null)
+        {
+            Artifact updArtifact = new Artifact(artifact.getId(),artifact.getUserID(),artifact.getCategory(),artifact.getDescription());
+            return artifactService.save(updArtifact);
+        }
+        else
+            return new MissingParamError("Id");
     }
 
-    @RequestMapping(path = "/artifact/{UUID}",
+    @RequestMapping(path = "/{UUID}",
             method = RequestMethod.DELETE,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
@@ -74,7 +79,7 @@ public class RestController {
         artifactService.deleteById(id);
     }
 
-    @RequestMapping(path = "/artifact/search",
+    @RequestMapping(path = "/search",
             method = RequestMethod.POST,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
@@ -92,12 +97,5 @@ public class RestController {
         return null;
     }
 
-    @RequestMapping(path = "/comments",
-            method = RequestMethod.POST,
-            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-    @ResponseBody
-    public Comment addComment(@RequestBody Comment comment)
-    {
-        return commentService.save(comment);
-    }
+
 }

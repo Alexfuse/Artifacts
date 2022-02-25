@@ -28,16 +28,17 @@ public class ArtifactService {
     }
 
     @Transactional
-    public ArtifactDTO save(Artifact Artifact)
+    public Artifact save(Artifact Artifact)
     {
-        Artifact object = artifactRepository.save(Artifact);
+        return artifactRepository.save(Artifact);
+        /*Artifact object = artifactRepository.save(Artifact);
         ArtifactDTO artifactDTO = new ArtifactDTO();
         artifactDTO.setId(object.getId());
         artifactDTO.setCategory(object.getCategory());
         artifactDTO.setCreated(object.getCreated());
         artifactDTO.setUserID(object.getUserID());
         artifactDTO.setDescription(object.getDescription());
-        return artifactDTO;
+        return artifactDTO;*/
     }
     @Transactional
     public void deleteById (UUID id)
