@@ -1,9 +1,7 @@
 package org.artifacts.controller;
 
-import org.artifacts.entity.Artifact;
-import org.artifacts.entity.ArtifactDTO;
-import org.artifacts.entity.Comment;
-import org.artifacts.entity.MissingParamError;
+import org.artifacts.entity.*;
+import org.artifacts.services.ArtifactBackupService;
 import org.artifacts.services.ArtifactService;
 import org.artifacts.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +20,18 @@ public class ArtifactController {
 
     private ArtifactService artifactService;
 
+    private ArtifactBackupService artifactBackupService;
+
     @Autowired
     public void setArtifactService(ArtifactService artifactService){
         this.artifactService=artifactService;
     }
+
+    @Autowired
+    public void setArtifactBackupService(ArtifactBackupService artifactBackupService){
+        this.artifactBackupService=artifactBackupService;
+    }
+
 
    
 
@@ -62,7 +68,8 @@ public class ArtifactController {
     {
         if(artifact.getId() != null)
         {
-            Artifact updArtifact = new Artifact(artifact.getId(),artifact.getUserID(),artifact.getCategory(),artifact.getDescription());
+            Artifact updArtifact = new Artifact(artifact.getId(),artifact.getUserID(),artifact.getCreated(),artifact.getCategory(),artifact.getDescription());
+            artifactBackupService.save(new ArtifactBackup(updArtifact.getId(), updArtifact));
             return artifactService.save(updArtifact);
         }
         else

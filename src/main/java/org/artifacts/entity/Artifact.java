@@ -19,7 +19,7 @@ public class Artifact implements Serializable {
     //@Type(type="org.hibernate.type.PostgresUUIDType")
     private UUID id;
 
-    @Column(name = "created")
+    @Column(name = "created",nullable = false)
     //@GeneratedValue
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -39,8 +39,9 @@ public class Artifact implements Serializable {
 
     }
 
-    public Artifact(UUID id,String userID, String category, String description){
+    public Artifact(UUID id,String userID, Date created, String category, String description){
         this.id = id;
+        this.created = created;
         this.userID = userID;
         this.category = category;
         this.description = description;
@@ -61,7 +62,7 @@ public class Artifact implements Serializable {
         this.id = id;
     }
 
-    public java.util.Date getCreated() {
+    public Date getCreated() {
         return created;
     }
 
