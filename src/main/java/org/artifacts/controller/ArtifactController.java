@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/artifact")
@@ -40,7 +37,7 @@ public class ArtifactController {
             method = RequestMethod.GET,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
-    public Object getArtifact(@PathVariable("UUID") String uuid)
+    public Optional<Artifact> getArtifact(@PathVariable("UUID") String uuid)
     {
         UUID id = UUID.fromString(uuid);
         return artifactService.findById(id);
@@ -50,7 +47,7 @@ public class ArtifactController {
             method = RequestMethod.POST,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
-    public Object addArtifact(@RequestBody Artifact artifact)
+    public ResponseEntity<Object> addArtifact(@RequestBody Artifact artifact)
     {
         artifact.setCreated(new Date());
         Artifact newArtifact =  artifactService.save(artifact);

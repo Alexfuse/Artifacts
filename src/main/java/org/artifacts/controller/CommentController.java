@@ -31,7 +31,7 @@ public class CommentController {
             method = RequestMethod.POST,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
-    public Object addComment(@RequestBody Comment comment)
+    public ResponseEntity<Object> addComment(@RequestBody Comment comment)
     {
         Comment newComment = commentService.save(comment);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
