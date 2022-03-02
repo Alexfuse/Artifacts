@@ -8,8 +8,11 @@ import org.artifacts.services.CommentBackupService;
 import org.artifacts.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.UUID;
 
 @RestController
@@ -28,9 +31,17 @@ public class CommentController {
             method = RequestMethod.POST,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @ResponseBody
-    public Comment addComment(@RequestBody Comment comment)
+    public Object addComment(@RequestBody Comment comment)
     {
-        return commentService.save(comment);
+        Comment newComment = commentService.save(comment);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{UUID}")
+                .buildAndExpand(newComment.getId())
+                .toUri();
+
+        //Send location in response
+        return ResponseEntity.created(location).build();
+
     }
 
     @RequestMapping(

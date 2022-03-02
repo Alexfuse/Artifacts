@@ -6,8 +6,11 @@ import org.artifacts.services.ArtifactService;
 import org.artifacts.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,14 +36,6 @@ public class ArtifactController {
     }
 
 
-   
-
-    @RequestMapping(path = "/test")
-    public String test()
-    {
-        return "0";
-    }
-
     @RequestMapping(path = "/{UUID}",
             method = RequestMethod.GET,
             produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
@@ -58,7 +53,14 @@ public class ArtifactController {
     public Object addArtifact(@RequestBody Artifact artifact)
     {
         artifact.setCreated(new Date());
-        return artifactService.save(artifact);
+        Artifact newArtifact =  artifactService.save(artifact);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{UUID}")
+                .buildAndExpand(newArtifact.getId())
+                .toUri();
+
+        //Send location in response
+        return ResponseEntity.created(location).build();
     }
     @RequestMapping(
             method = RequestMethod.PUT,

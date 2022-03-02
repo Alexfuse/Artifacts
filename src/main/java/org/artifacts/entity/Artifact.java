@@ -54,6 +54,13 @@ public class Artifact implements Serializable {
         this.description = description;
     }
 
+    public Artifact(String userID, String category, String description){
+        this.created = new Date();
+        this.userID = userID;
+        this.category = category;
+        this.description = description;
+    }
+
     public UUID getId() {
         return id;
     }
